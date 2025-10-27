@@ -10,9 +10,55 @@ body {
   background: #fafafa;
   margin: 0;
   padding: 0;
-  text-align: center;
   color: #333;
+  display: flex;
 }
+
+/* 左侧分类栏 */
+.sidebar {
+  width: 150px;
+  background: #fff8dc;
+  padding: 15px 10px;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  z-index: 10;
+}
+
+.sidebar button {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 8px;
+  margin: 8px 0;
+  color: #000;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-size: 14px;
+}
+.sidebar button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+.sidebar button:nth-child(1) { background: #ffcf33; }
+.sidebar button:nth-child(2) { background: #ff9f33; }
+.sidebar button:nth-child(3) { background: #ff6b3d; }
+
+/* 主体区域 */
+.main {
+  margin-left: 150px;
+  flex: 1;
+  text-align: center;
+  padding-bottom: 50px;
+}
+
 header {
   background: #ffcf33;
   padding: 25px 15px;
@@ -20,9 +66,7 @@ header {
 }
 header img {
   width: 120px;
-  height: auto;
   border-radius: 50%;
-  margin-bottom: 10px;
 }
 header h1 {
   margin: 0;
@@ -30,6 +74,7 @@ header h1 {
   font-weight: bold;
   color: #000;
 }
+
 h2 {
   margin-top: 30px;
   color: #ff7b00;
@@ -38,6 +83,7 @@ h2 {
   display: inline-block;
   padding-bottom: 5px;
 }
+
 .menu {
   max-width: 500px;
   margin: 20px auto;
@@ -52,14 +98,10 @@ h2 {
 }
 .item img {
   width: 100%;
-  max-width: 200px;   /* 限制最大宽度 */
-  height: auto;
+  max-width: 200px;
   border-radius: 10px;
-  margin-bottom: 10px;
   display: block;
-  margin-left: auto;
-  margin-right: auto; /* 图片居中 */
-}
+  margin: 0 auto 10px;
 }
 .item h3 {
   margin: 0;
@@ -86,6 +128,7 @@ h2 {
   font-size: 18px;
   cursor: pointer;
 }
+
 #total {
   margin: 20px auto;
   padding: 15px;
@@ -95,8 +138,8 @@ h2 {
   width: fit-content;
   font-size: 18px;
   font-weight: bold;
-  color: #444;
 }
+
 #duitnow {
   margin: 25px auto;
   padding: 20px;
@@ -110,6 +153,7 @@ h2 {
   border-radius: 10px;
   margin-top: 10px;
 }
+
 button#sendOrder {
   width: 100%;
   padding: 18px;
@@ -127,32 +171,56 @@ button#sendOrder {
 button#sendOrder:hover {
   background: #1ebe57;
   transform: translateY(-2px);
-  box-shadow: 0 5px 12px rgba(37,211,102,0.6);
 }
+
 #status, #openNow, #closed {
   margin: 15px;
   border-radius: 8px;
   padding: 12px;
 }
-#status {
-  background: #fff3cd;
-  color: #856404;
-}
-#openNow {
-  background: #d4edda;
-  color: #155724;
-  font-weight: bold;
-}
+#status { background: #fff3cd; color: #856404; }
+#openNow { background: #d4edda; color: #155724; font-weight: bold; }
 #closed {
   background: #ffe8e8;
   color: #b30000;
   font-weight: bold;
   display: none;
 }
+
+/* 手机版适配 */
+@media (max-width: 768px) {
+  body { flex-direction: column; }
+  .sidebar {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+    box-shadow: none;
+  }
+  .sidebar button {
+    flex: 1 1 30%;
+    text-align: center;
+  }
+  .main { margin-left: 0; }
+}
+
+/* 平滑滚动 */
+html {
+  scroll-behavior: smooth;
+}
 </style>
 </head>
 <body>
 
+<div class="sidebar">
+  <button onclick="scrollToSection('special')">🔥 店家爆品</button>
+  <button onclick="scrollToSection('classic')">🍗 原味炸鸡</button>
+  <button onclick="scrollToSection('snack')">🍟 小吃系列</button>
+</div>
+
+<div class="main">
 <header>
   <img src="logo.png" alt="Mystery Belacan Fried Chicken Logo">
   <h1>🍗 Mystery Belacan Fried Chicken</h1>
@@ -164,7 +232,8 @@ button#sendOrder:hover {
 
 <div id="menuSection" class="menu">
 
-  <h2>🔥 店家爆品</h2>
+  <h2 id="special">🔥 店家爆品</h2>
+  <!-- 你的爆品菜单照旧 -->
   <div class="item">
     <img src="popcorn.jpg" alt="Chicken Popcorn">
     <h3>Chicken Popcorn RM7.50</h3>
@@ -175,11 +244,11 @@ button#sendOrder:hover {
     <p>麻辣</p><div class="quantity"><button onclick="changeQty('popcorn_spicy', -1)">-</button><span id="qty-popcorn_spicy">0</span><button onclick="changeQty('popcorn_spicy', 1)">+</button></div>
     <p>起司</p><div class="quantity"><button onclick="changeQty('popcorn_cheese', -1)">-</button><span id="qty-popcorn_cheese">0</span><button onclick="changeQty('popcorn_cheese', 1)">+</button></div>
   </div>
-  
-    <div class="item">
+
+  <div class="item">
     <img src="fillet.jpg" alt="Chicken Breast Fillet">
     <h3>Chicken Breast Fillet RM7.50</h3>
-   <p>选择口味：</p>
+    <p>选择口味：</p>
     <p>原味</p><div class="quantity"><button onclick="changeQty('fillet_plain', -1)">-</button><span id="qty-fillet_plain">0</span><button onclick="changeQty('fillet_plain', 1)">+</button></div>
     <p>盐酥</p><div class="quantity"><button onclick="changeQty('fillet_salty', -1)">-</button><span id="qty-fillet_salty">0</span><button onclick="changeQty('fillet_salty', 1)">+</button></div>
     <p>海苔</p><div class="quantity"><button onclick="changeQty('fillet_seaweed', -1)">-</button><span id="qty-fillet_seaweed">0</span><button onclick="changeQty('fillet_seaweed', 1)">+</button></div>
@@ -187,7 +256,7 @@ button#sendOrder:hover {
     <p>起司</p><div class="quantity"><button onclick="changeQty('fillet_cheese', -1)">-</button><span id="qty-fillet_cheese">0</span><button onclick="changeQty('fillet_cheese', 1)">+</button></div>
   </div>
 
-  <h2>🍗 原味炸鸡</h2>
+  <h2 id="classic">🍗 原味炸鸡</h2>
   <div class="item">
     <img src="wing.jpg" alt="Chicken Wing">
     <h3>Chicken Wing RM3.50</h3>
@@ -205,9 +274,8 @@ button#sendOrder:hover {
     <h3>Chicken Thigh RM5.00</h3>
     <div class="quantity"><button onclick="changeQty('thigh', -1)">-</button><span id="qty-thigh">0</span><button onclick="changeQty('thigh', 1)">+</button></div>
   </div>
-  
 
-  <h2>🍟 小吃系列</h2>
+  <h2 id="snack">🍟 小吃系列</h2>
   <div class="item">
     <img src="wedges.jpg" alt="Cheesy Wedges">
     <h3>Cheesy Wedges RM6.50</h3>
@@ -224,20 +292,24 @@ button#sendOrder:hover {
   <p style="margin-top:10px;">付款后，请点击下方按钮，并在 WhatsApp 附上付款截图 📸</p>
   <button id="sendOrder">📩 发送 WhatsApp 下单</button>
 </div>
+</div>
 
 <script>
-const restDays = ["Saturday"]; // 休息六
+function scrollToSection(id) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+}
+
+/* 以下保留原功能逻辑 */
+const restDays = ["Saturday"];
 const openHour = 16, openMinute = 30;
 const closeHour = 20, closeMinute = 30;
-
 const qty = {
   popcorn_plain: 0, popcorn_salty: 0, popcorn_seaweed: 0, popcorn_spicy: 0, popcorn_cheese: 0,
-  wing: 0, drumstick: 0, thigh: 0, fillet_plain: 0,fillet_salty: 0,fillet_seaweed: 0,fillet_spicy: 0,fillet_cheese: 0, wedges: 0
+  wing: 0, drumstick: 0, thigh: 0, fillet_plain: 0, fillet_salty: 0, fillet_seaweed: 0, fillet_spicy: 0, fillet_cheese: 0, wedges: 0
 };
-
 const prices = {
   popcorn_plain: 7.5, popcorn_salty: 7.5, popcorn_seaweed: 7.5, popcorn_spicy: 7.5, popcorn_cheese: 7.5,
-  wing: 3.5, drumstick: 5, thigh: 5, fillet_plain: 7.5,fillet_salty: 7.5,fillet_seaweed: 7.5,fillet_spicy: 7.5,fillet_cheese: 7.5, wedges: 6.5
+  wing: 3.5, drumstick: 5, thigh: 5, fillet_plain: 7.5, fillet_salty: 7.5, fillet_seaweed: 7.5, fillet_spicy: 7.5, fillet_cheese: 7.5, wedges: 6.5
 };
 
 function changeQty(item, change) {
@@ -248,9 +320,7 @@ function changeQty(item, change) {
 
 function updateTotal() {
   let total = 0;
-  for (const key in qty) {
-    total += qty[key] * prices[key];
-  }
+  for (const key in qty) total += qty[key] * prices[key];
   document.getElementById("total").textContent = "🧾 总计：RM " + total.toFixed(2);
 }
 
@@ -261,7 +331,6 @@ function checkBusinessHours() {
   const closedDiv = document.getElementById("closed");
   const openNow = document.getElementById("openNow");
   const sendBtn = document.getElementById("sendOrder");
-
   const isRestDay = restDays.includes(dayName);
   let isOpen = false;
 
@@ -272,7 +341,6 @@ function checkBusinessHours() {
   }
 
   if (isRestDay || !isOpen) {
-    // 未营业状态
     closedDiv.style.display = "block";
     openNow.style.display = "none";
     sendBtn.disabled = true;
@@ -281,7 +349,6 @@ function checkBusinessHours() {
     sendBtn.style.cursor = "not-allowed";
     sendBtn.style.boxShadow = "none";
   } else {
-    // 营业中状态
     closedDiv.style.display = "none";
     openNow.style.display = "block";
     openNow.textContent = "✅ 正在营业中！欢迎下单～";
@@ -294,48 +361,28 @@ function checkBusinessHours() {
 }
 
 document.getElementById("sendOrder").addEventListener("click", function() {
-  if (this.disabled) return; // 若未营业则不动作
-
+  if (this.disabled) return;
   const phone = "60103715668";
   const now = new Date();
   const dateTime = now.toLocaleString("zh-CN", { hour12: false });
   let msg = "🍗 Mystery Belacan Fried Chicken 下单通知\n\n";
   msg += "🕒 下单时间：" + dateTime + "\n\n";
-
   const nameMap = {
-    popcorn_plain: "Chicken Popcorn (原味)",
-    popcorn_salty: "Chicken Popcorn (盐酥)",
-    popcorn_seaweed: "Chicken Popcorn (海苔)",
-    popcorn_spicy: "Chicken Popcorn (麻辣)",
-    popcorn_cheese: "Chicken Popcorn (起司)",
-    fillet_plain: "Chicken Breast Fillet(原味)",
-    fillet_salty: "Chicken Breast Fillet(盐酥)",
-    fillet_seaweed: "Chicken Breast Fillet(海苔)",
-    fillet_spicy: "Chicken Breast Fillet(麻辣)",
-    fillet_cheese: "Chicken Breast Fillet(起司)",
-    wing: "Chicken Wing",
-    drumstick: "Chicken Drumstick",
-    thigh: "Chicken Thigh",
-   
-    wedges: "Cheesy Wedges"
+    popcorn_plain: "Chicken Popcorn (原味)", popcorn_salty: "Chicken Popcorn (盐酥)",
+    popcorn_seaweed: "Chicken Popcorn (海苔)", popcorn_spicy: "Chicken Popcorn (麻辣)", popcorn_cheese: "Chicken Popcorn (起司)",
+    fillet_plain: "Chicken Breast Fillet(原味)", fillet_salty: "Chicken Breast Fillet(盐酥)",
+    fillet_seaweed: "Chicken Breast Fillet(海苔)", fillet_spicy: "Chicken Breast Fillet(麻辣)", fillet_cheese: "Chicken Breast Fillet(起司)",
+    wing: "Chicken Wing", drumstick: "Chicken Drumstick", thigh: "Chicken Thigh", wedges: "Cheesy Wedges"
   };
-
   let total = 0;
-  for (const key in qty) {
-    if (qty[key] > 0) {
-      msg += `- ${nameMap[key]} × ${qty[key]}\n`;
-      total += qty[key] * prices[key];
-    }
-  }
-
+  for (const key in qty) if (qty[key] > 0) { msg += `- ${nameMap[key]} × ${qty[key]}\n`; total += qty[key] * prices[key]; }
   msg += `\n🧾 总计：RM ${total.toFixed(2)}\n\n请附上付款截图，谢谢！😊`;
   window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, "_blank");
 });
-
 checkBusinessHours();
-</script>
-</body>
-</html>
+</
+
+
 
 
 
