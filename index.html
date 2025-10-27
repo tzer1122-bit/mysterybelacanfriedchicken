@@ -1,5 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mystery Belacan Fried Chicken</title>
+<style>
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #fafafa;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  color: #333;
+}
+header {
+  background: #ffcf33;
+  padding: 25px 15px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+header img {
+  width: 120px;
+  height: auto;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+header h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+  color: #000;
+}
+h2 {
+  margin-top: 30px;
+  color: #ff7b00;
+  font-size: 22px;
+  border-bottom: 2px solid #ffcf33;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+.menu {
+  max-width: 500px;
+  margin: 20px auto;
+  text-align: left;
+}
+.item {
+  background: #fff;
+  margin: 15px 0;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.item img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+.item h3 {
+  margin: 0;
+  font-size: 18px;
+}
+.item p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #666;
+}
+.quantity {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 150px;
+  margin-top: 8px;
+}
+.quantity button {
+  width: 30px;
+  height: 30px;
+  background: #ffcf33;
+  border: none;
+  border-radius: 6px;
+  font-size: 18px;
+  cursor: pointer;
+}
+#total {
+  margin: 20px auto;
+  padding: 15px;
+  background: #fffbe6;
+  border: 2px solid #ffcf33;
+  border-radius: 10px;
+  width: fit-content;
+  font-size: 18px;
+  font-weight: bold;
+  color: #444;
+}
+#duitnow {
+  margin: 25px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  max-width: 400px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+#duitnow img {
+  width: 200px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+button#sendOrder {
+  width: 100%;
+  padding: 18px;
+  background: #25D366;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 10px rgba(37,211,102,0.4);
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+button#sendOrder:hover {
+  background: #1ebe57;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(37,211,102,0.6);
+}
+#status, #openNow, #closed {
+  margin: 15px;
+  border-radius: 8px;
+  padding: 12px;
+}
+#status {
+  background: #fff3cd;
+  color: #856404;
+}
+#openNow {
+  background: #d4edda;
+  color: #155724;
+  font-weight: bold;
+}
+#closed {
+  background: #ffe8e8;
+  color: #b30000;
+  font-weight: bold;
+  display: none;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <img src="logo.png" alt="Mystery Belacan Fried Chicken Logo">
+  <h1>🍗 Mystery Belacan Fried Chicken</h1>
+</header>
+
+<div id="status">🕓 营业时间：下午 4:30 – 晚上 8:30（星期六休息）</div>
+<div id="openNow"></div>
+<div id="closed">🚫 今日休息或未营业，请于营业时间再来！</div>
+
+<div id="menuSection" class="menu">
+
+  <h2>🔥 店家爆品</h2>
+  <div class="item">
+    <img src="popcorn.jpg" alt="Chicken Popcorn">
+    <h3>Chicken Popcorn RM7.50</h3>
+    <p>选择口味：</p>
+    <p>原味</p><div class="quantity"><button onclick="changeQty('popcorn_plain', -1)">-</button><span id="qty-popcorn_plain">0</span><button onclick="changeQty('popcorn_plain', 1)">+</button></div>
+    <p>盐酥</p><div class="quantity"><button onclick="changeQty('popcorn_salty', -1)">-</button><span id="qty-popcorn_salty">0</span><button onclick="changeQty('popcorn_salty', 1)">+</button></div>
+    <p>海苔</p><div class="quantity"><button onclick="changeQty('popcorn_seaweed', -1)">-</button><span id="qty-popcorn_seaweed">0</span><button onclick="changeQty('popcorn_seaweed', 1)">+</button></div>
+    <p>麻辣</p><div class="quantity"><button onclick="changeQty('popcorn_spicy', -1)">-</button><span id="qty-popcorn_spicy">0</span><button onclick="changeQty('popcorn_spicy', 1)">+</button></div>
+    <p>起司</p><div class="quantity"><button onclick="changeQty('popcorn_cheese', -1)">-</button><span id="qty-popcorn_cheese">0</span><button onclick="changeQty('popcorn_cheese', 1)">+</button></div>
+  </div>
+
+  <h2>🍗 原味炸鸡</h2>
+  <div class="item">
+    <img src="wing.jpg" alt="Chicken Wing">
+    <h3>Chicken Wing RM3.50</h3>
+    <div class="quantity"><button onclick="changeQty('wing', -1)">-</button><span id="qty-wing">0</span><button onclick="changeQty('wing', 1)">+</button></div>
+  </div>
+
+  <div class="item">
+    <img src="drumstick.jpg" alt="Chicken Drumstick">
+    <h3>Chicken Drumstick RM5.00</h3>
+    <div class="quantity"><button onclick="changeQty('drumstick', -1)">-</button><span id="qty-drumstick">0</span><button onclick="changeQty('drumstick', 1)">+</button></div>
+  </div>
+
+  <div class="item">
+    <img src="thigh.jpg" alt="Chicken Thigh">
+    <h3>Chicken Thigh RM5.00</h3>
+    <div class="quantity"><button onclick="changeQty('thigh', -1)">-</button><span id="qty-thigh">0</span><button onclick="changeQty('thigh', 1)">+</button></div>
+  </div>
+
+  <div class="item">
+    <img src="fillet.jpg" alt="Chicken Breast Fillet">
+    <h3>Chicken Breast Fillet RM7.50</h3>
+    <div class="quantity"><button onclick="changeQty('fillet', -1)">-</button><span id="qty-fillet">0</span><button onclick="changeQty('fillet', 1)">+</button></div>
+  </div>
+
+  <h2>🍟 小吃系列</h2>
+  <div class="item">
+    <img src="wedges.jpg" alt="Cheesy Wedges">
+    <h3>Cheesy Wedges RM6.50</h3>
+    <div class="quantity"><button onclick="changeQty('wedges', -1)">-</button><span id="qty-wedges">0</span><button onclick="changeQty('wedges', 1)">+</button></div>
+  </div>
+
+</div>
+
+<div id="total">🧾 总计：RM 0.00</div>
+
+<div id="duitnow">
+  <h3>💳 请扫码通过 DuitNow 付款</h3>
+  <img src="duitnow.jpg" alt="DuitNow QR">
+  <p style="margin-top:10px;">付款后，请点击下方按钮，并在 WhatsApp 附上付款截图 📸</p>
+  <button id="sendOrder">📩 发送 WhatsApp 下单</button>
+</div>
+
 <script>
-const restDays = ["Saturday"]; // 休息日
+const restDays = ["Saturday"]; // 休息六
 const openHour = 16, openMinute = 30;
 const closeHour = 20, closeMinute = 30;
 
@@ -104,4 +319,5 @@ checkBusinessHours();
 </script>
 </body>
 </html>
+
 
