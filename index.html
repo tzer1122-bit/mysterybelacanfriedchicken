@@ -1,75 +1,80 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Mystery Belacan Fried Chicken</title>
 <style>
-* { box-sizing: border-box; }
-body { font-family: 'Poppins', sans-serif; background:#fafafa; margin:0; color:#333; display:flex; min-height:100vh; }
-html { scroll-behavior:smooth; }
+/* 基本重置 */
+* { box-sizing: border-box; margin:0; padding:0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Poppins', sans-serif; background: #fafafa; color:#333; min-height:100vh; display:flex; flex-direction:row; }
 
-/* 左侧菜单栏 */
+/* 左侧分类栏 */
 .sidebar {
-  position: fixed; top:0; left:0; width:150px; height:100vh;
+  position: fixed;
+  top: 0; left: 0;
+  width: 150px; height: 100vh;
   background:#fff; box-shadow:2px 0 6px rgba(0,0,0,0.08);
-  padding:18px 10px; display:flex; flex-direction:column; gap:10px; z-index:50;
+  display:flex; flex-direction:column; align-items:stretch; gap:10px;
+  padding:18px 10px; z-index:1000;
 }
 .cat-btn {
   border:none; border-radius:10px; padding:10px 8px;
-  font-weight:700; cursor:pointer; font-size:14px;
-  transition: transform .18s ease, box-shadow .18s ease; text-align:center;
+  font-weight:700; font-size:14px; cursor:pointer; text-align:center;
+  transition: transform .18s ease, box-shadow .18s ease;
 }
-.cat-btn.active { box-shadow:0 4px 12px rgba(0,0,0,0.12); transform:translateY(-2px);}
-.cat-all { background:#9aa0a6; color:#fff; }
-.cat-featured { background:#ff6b3d; }
-.cat-original { background:#ffcf33; color:#000; }
-.cat-snack { background:#00a4c4; }
+.cat-btn:active{transform:translateY(1px);}
+.cat-all{background:#9aa0a6;color:#fff;}
+.cat-featured{background:#ff6b3d;}
+.cat-original{background:#ffcf33;color:#000;}
+.cat-snack{background:#00a4c4;}
+.cat-btn.active{box-shadow:0 4px 12px rgba(0,0,0,0.12); transform:translateY(-2px);}
 
 /* 主内容区 */
-.main { margin-left:150px; flex:1; padding:0 18px 60px; min-height:100vh; }
-header { background:#ffcf33; padding:20px 15px; display:flex; align-items:center; gap:12px; box-shadow:0 2px 6px rgba(0,0,0,0.08); border-radius:0 0 8px 8px; }
-header img { width:84px; border-radius:50%; }
-header h1 { margin:0; font-size:20px; }
+.main { margin-left:150px; flex:1; padding:0 18px 60px; min-height:100vh; position:relative; z-index:1; }
 
-/* 状态信息 */
-#status, #openNow, #closed { margin:14px auto; border-radius:8px; padding:10px; max-width:860px; text-align:center;}
-#status { background:#fff3cd; color:#856404; }
-#openNow { background:#d4edda; color:#155724; font-weight:700; }
-#closed { background:#ffe8e8; color:#b30000; font-weight:700; display:none; }
+/* header */
+header { background:#ffcf33; padding:20px 15px; box-shadow:0 2px 6px rgba(0,0,0,0.08); display:flex; align-items:center; gap:12px; border-radius:0 0 8px 8px;}
+header img{width:84px; height:auto; border-radius:50%;}
+header h1{font-size:20px;}
 
-/* 菜单 */
-.menu { max-width:900px; margin:14px auto; text-align:left; padding:0 6px; }
-.item { background:#fff; margin:12px 0; padding:14px; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,0.06); transition: opacity .35s ease, transform .35s ease; }
-.item.hidden { opacity:0; transform:translateY(8px); pointer-events:none; height:0; margin:0; padding:0; overflow:hidden; }
-.item img { width:100%; max-width:220px; border-radius:8px; margin-bottom:10px; }
-.item h3 { margin:0 0 6px 0; font-size:18px; }
-.item p { margin:6px 0; color:#666; font-size:14px; }
-.quantity { display:flex; align-items:center; gap:8px; max-width:160px; margin-top:6px; }
-.quantity button { width:34px; height:34px; background:#ffcf33; border:none; border-radius:8px; font-size:18px; cursor:pointer; }
+/* status */
+#status, #openNow, #closed{margin:14px auto; border-radius:8px; padding:10px; max-width:860px;}
+#status{background:#fff3cd; color:#856404;}
+#openNow{background:#d4edda; color:#155724; font-weight:700;}
+#closed{background:#ffe8e8; color:#b30000; font-weight:700; display:none;}
 
-/* 总计与付款 */
-#total { margin:18px auto; padding:12px; background:#fffbe6; border:2px solid #ffcf33; border-radius:10px; width:fit-content; font-weight:700; }
-#duitnow { margin:18px auto; padding:16px; background:#fff; border-radius:10px; max-width:420px; box-shadow:0 2px 6px rgba(0,0,0,0.06); }
-#duitnow img { width:200px; border-radius:10px; }
-button#sendOrder { width:100%; padding:14px; background:#25D366; border:none; border-radius:10px; color:#fff; font-weight:800; font-size:18px; cursor:pointer; box-shadow:0 4px 10px rgba(37,211,102,0.3);}
-button#sendOrder[disabled] { background:#ccc; cursor:not-allowed; box-shadow:none; }
+/* 菜单容器 */
+.menu{max-width:900px; margin:14px auto; text-align:left; padding:0 6px;}
+.item{background:#fff; margin:12px 0; padding:14px; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,0.06); display:block; opacity:1; transform:translateY(0); transition: opacity .35s, transform .35s;}
+.item.hidden{opacity:0; transform:translateY(8px); pointer-events:none; height:0; margin:0; padding:0; overflow:hidden;}
+.item img{width:100%; max-width:220px; display:block; margin-bottom:10px; border-radius:8px;}
+.item h3{margin-bottom:6px; font-size:18px;}
+.item p{margin:6px 0; color:#666; font-size:14px;}
+.quantity{display:flex; align-items:center; gap:8px; max-width:160px; margin-top:6px;}
+.quantity button{width:34px; height:34px; background:#ffcf33; border:none; border-radius:8px; font-size:18px; cursor:pointer;}
 
-/* 浮动清单 */
-#orderSummary { position:fixed; right:12px; top:150px; width:250px; background:#fff; padding:12px; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.1); font-size:14px; z-index:30;}
-#orderSummary h3 { margin-top:0; font-size:16px; }
-#orderSummary ul { padding-left:18px; max-height:300px; overflow-y:auto; margin:6px 0; }
-#orderSummary button { width:100%; margin-top:6px; padding:8px; border:none; border-radius:6px; cursor:pointer; font-weight:700; }
+/* 总计/清单/付款 */
+#total{margin:18px auto; padding:12px; background:#fffbe6; border:2px solid #ffcf33; border-radius:10px; width:fit-content; font-weight:700;}
+#selectedList{margin:18px auto; max-width:420px; background:#fff; border-radius:10px; padding:12px; box-shadow:0 2px 6px rgba(0,0,0,0.06);}
+#duitnow{margin:18px auto; padding:16px; background:#fff; border-radius:10px; max-width:420px; box-shadow:0 2px 6px rgba(0,0,0,0.06);}
+#duitnow img{width:200px; border-radius:10px;}
+button#sendOrder{width:100%; padding:14px; background:#25D366; border:none; border-radius:10px; color:#fff; font-weight:800; font-size:18px; cursor:pointer; box-shadow:0 4px 10px rgba(37,211,102,0.3);}
+button#sendOrder[disabled]{background:#ccc; cursor:not-allowed; box-shadow:none;}
 
-/* 响应式 */
-@media (max-width:820px){
+/* responsive */
+@media(max-width:820px){
   body{flex-direction:column;}
-  .sidebar{position:relative;width:100%;height:auto;flex-direction:row;justify-content:center;gap:8px;box-shadow:none;padding:10px;}
-  .main{margin-left:0;padding:6px;}
-  .cat-btn{flex:1 1 auto;font-size:13px;padding:8px;}
+  .sidebar{position:fixed; width:100%; height:auto; flex-direction:row; justify-content:center; padding:10px; gap:8px; top:0; left:0; box-shadow:0 2px 6px rgba(0,0,0,0.08);}
+  .main{margin-left:0; padding-top:70px;}
+  .cat-btn{flex:1 1 auto; font-size:13px; padding:8px;}
   .menu{padding:0 6px;}
-  #orderSummary{position:relative;width:auto;top:auto;right:auto;margin:12px;}
 }
+
+/* 动画 */
+.fade-in{animation:fadeIn .35s both;}
+@keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
 </style>
 </head>
 <body>
@@ -84,257 +89,176 @@ button#sendOrder[disabled] { background:#ccc; cursor:not-allowed; box-shadow:non
 </div>
 
 <div class="main">
-<header>
-  <img src="logo.png" alt="Logo">
-  <h1>🍗 Mystery Belacan Fried Chicken</h1>
-</header>
+  <header>
+    <img src="logo.png" alt="Logo">
+    <h1>🍗 Mystery Belacan Fried Chicken</h1>
+  </header>
 
-<div id="status">🕓 营业时间：下午 4:30 – 晚上 8:30（星期六休息）</div>
-<div id="openNow"></div>
-<div id="closed">🚫 今日休息或未营业，请于营业时间再来！</div>
+  <div id="status">🕓 营业时间：下午 4:30 – 晚上 8:30（星期六休息）</div>
+  <div id="openNow"></div>
+  <div id="closed">🚫 今日休息或未营业，请于营业时间再来！</div>
 
-<div id="menuSection" class="menu">
-  <!-- 店家爆品 -->
-  <h2 class="section-title">🔥 店家爆品</h2>
-  <div class="item" data-category="featured">
-    <img src="popcorn.jpg" alt="Chicken Popcorn">
-    <h3>Chicken Popcorn RM7.50</h3>
-    <p>选择口味：</p>
-    <p>原味</p>
-    <div class="quantity">
-      <button onclick="changeQty('popcorn_plain', -1)">-</button>
-      <span id="qty-popcorn_plain">0</span>
-      <button onclick="changeQty('popcorn_plain', 1)">+</button>
+  <div id="menuSection" class="menu">
+
+    <h2>🔥 店家爆品</h2>
+    <div class="item" data-category="featured">
+      <img src="popcorn.jpg" alt="Chicken Popcorn">
+      <h3>Chicken Popcorn RM7.50</h3>
+      <p>选择口味：</p>
+      <p>原味</p>
+      <div class="quantity">
+        <button onclick="changeQty('popcorn_plain',-1)">-</button><span id="qty-popcorn_plain">0</span><button onclick="changeQty('popcorn_plain',1)">+</button>
+      </div>
+      <p>盐酥</p>
+      <div class="quantity">
+        <button onclick="changeQty('popcorn_salty',-1)">-</button><span id="qty-popcorn_salty">0</span><button onclick="changeQty('popcorn_salty',1)">+</button>
+      </div>
+      <p>海苔</p>
+      <div class="quantity">
+        <button onclick="changeQty('popcorn_seaweed',-1)">-</button><span id="qty-popcorn_seaweed">0</span><button onclick="changeQty('popcorn_seaweed',1)">+</button>
+      </div>
+      <p>麻辣</p>
+      <div class="quantity">
+        <button onclick="changeQty('popcorn_spicy',-1)">-</button><span id="qty-popcorn_spicy">0</span><button onclick="changeQty('popcorn_spicy',1)">+</button>
+      </div>
+      <p>起司</p>
+      <div class="quantity">
+        <button onclick="changeQty('popcorn_cheese',-1)">-</button><span id="qty-popcorn_cheese">0</span><button onclick="changeQty('popcorn_cheese',1)">+</button>
+      </div>
     </div>
-    <p>盐酥</p>
-    <div class="quantity">
-      <button onclick="changeQty('popcorn_salty', -1)">-</button>
-      <span id="qty-popcorn_salty">0</span>
-      <button onclick="changeQty('popcorn_salty', 1)">+</button>
+
+    <div class="item" data-category="featured">
+      <img src="fillet.jpg" alt="Chicken Breast Fillet">
+      <h3>Chicken Breast Fillet RM7.50</h3>
+      <p>原味</p>
+      <div class="quantity">
+        <button onclick="changeQty('fillet_plain',-1)">-</button><span id="qty-fillet_plain">0</span><button onclick="changeQty('fillet_plain',1)">+</button>
+      </div>
+      <p>盐酥</p>
+      <div class="quantity">
+        <button onclick="changeQty('fillet_salty',-1)">-</button><span id="qty-fillet_salty">0</span><button onclick="changeQty('fillet_salty',1)">+</button>
+      </div>
+      <p>海苔</p>
+      <div class="quantity">
+        <button onclick="changeQty('fillet_seaweed',-1)">-</button><span id="qty-fillet_seaweed">0</span><button onclick="changeQty('fillet_seaweed',1)">+</button>
+      </div>
+      <p>麻辣</p>
+      <div class="quantity">
+        <button onclick="changeQty('fillet_spicy',-1)">-</button><span id="qty-fillet_spicy">0</span><button onclick="changeQty('fillet_spicy',1)">+</button>
+      </div>
+      <p>起司</p>
+      <div class="quantity">
+        <button onclick="changeQty('fillet_cheese',-1)">-</button><span id="qty-fillet_cheese">0</span><button onclick="changeQty('fillet_cheese',1)">+</button>
+      </div>
     </div>
-    <p>海苔</p>
-    <div class="quantity">
-      <button onclick="changeQty('popcorn_seaweed', -1)">-</button>
-      <span id="qty-popcorn_seaweed">0</span>
-      <button onclick="changeQty('popcorn_seaweed', 1)">+</button>
+
+    <h2>🍗 原味炸鸡</h2>
+    <div class="item" data-category="original">
+      <img src="wing.jpg" alt="Chicken Wing">
+      <h3>Chicken Wing RM3.50</h3>
+      <div class="quantity"><button onclick="changeQty('wing',-1)">-</button><span id="qty-wing">0</span><button onclick="changeQty('wing',1)">+</button></div>
     </div>
-    <p>麻辣</p>
-    <div class="quantity">
-      <button onclick="changeQty('popcorn_spicy', -1)">-</button>
-      <span id="qty-popcorn_spicy">0</span>
-      <button onclick="changeQty('popcorn_spicy', 1)">+</button>
+    <div class="item" data-category="original">
+      <img src="drumstick.jpg" alt="Chicken Drumstick">
+      <h3>Chicken Drumstick RM5.00</h3>
+      <div class="quantity"><button onclick="changeQty('drumstick',-1)">-</button><span id="qty-drumstick">0</span><button onclick="changeQty('drumstick',1)">+</button></div>
     </div>
-    <p>起司</p>
-    <div class="quantity">
-      <button onclick="changeQty('popcorn_cheese', -1)">-</button>
-      <span id="qty-popcorn_cheese">0</span>
-      <button onclick="changeQty('popcorn_cheese', 1)">+</button>
+    <div class="item" data-category="original">
+      <img src="thigh.jpg" alt="Chicken Thigh">
+      <h3>Chicken Thigh RM5.00</h3>
+      <div class="quantity"><button onclick="changeQty('thigh',-1)">-</button><span id="qty-thigh">0</span><button onclick="changeQty('thigh',1)">+</button></div>
+    </div>
+
+    <h2>🍟 小吃系列</h2>
+    <div class="item" data-category="snacks">
+      <img src="wedges.jpg" alt="Cheesy Wedges">
+      <h3>Cheesy Wedges RM6.50</h3>
+      <div class="quantity"><button onclick="changeQty('wedges',-1)">-</button><span id="qty-wedges">0</span><button onclick="changeQty('wedges',1)">+</button></div>
     </div>
   </div>
 
-  <div class="item" data-category="featured">
-    <img src="fillet.jpg" alt="Chicken Breast Fillet">
-    <h3>Chicken Breast Fillet RM7.50</h3>
-    <p>原味</p>
-    <div class="quantity">
-      <button onclick="changeQty('fillet_plain', -1)">-</button>
-      <span id="qty-fillet_plain">0</span>
-      <button onclick="changeQty('fillet_plain', 1)">+</button>
-    </div>
-    <p>盐酥</p>
-    <div class="quantity">
-      <button onclick="changeQty('fillet_salty', -1)">-</button>
-      <span id="qty-fillet_salty">0</span>
-      <button onclick="changeQty('fillet_salty', 1)">+</button>
-    </div>
-    <p>海苔</p>
-    <div class="quantity">
-      <button onclick="changeQty('fillet_seaweed', -1)">-</button>
-      <span id="qty-fillet_seaweed">0</span>
-      <button onclick="changeQty('fillet_seaweed', 1)">+</button>
-    </div>
-    <p>麻辣</p>
-    <div class="quantity">
-      <button onclick="changeQty('fillet_spicy', -1)">-</button>
-      <span id="qty-fillet_spicy">0</span>
-      <button onclick="changeQty('fillet_spicy', 1)">+</button>
-    </div>
-    <p>起司</p>
-    <div class="quantity">
-      <button onclick="changeQty('fillet_cheese', -1)">-</button>
-      <span id="qty-fillet_cheese">0</span>
-      <button onclick="changeQty('fillet_cheese', 1)">+</button>
-    </div>
+  <div id="total">🧾 总计：RM 0.00</div>
+  <div id="selectedList"><h3>📋 已选菜单清单</h3><ul id="listItems"></ul></div>
+
+  <div id="duitnow">
+    <h3>💳 请扫码通过 DuitNow 付款</h3>
+    <img src="duitnow.jpg" alt="DuitNow QR">
+    <p style="margin-top:10px;">付款后，请点击下方按钮，并在 WhatsApp 附上付款截图 📸</p>
+    <button id="sendOrder" disabled>📩 发送 WhatsApp 下单</button>
   </div>
 
-  <!-- 原味炸鸡 -->
-  <h2 class="section-title">🍗 原味炸鸡</h2>
-  <div class="item" data-category="original">
-    <img src="wing.jpg" alt="Chicken Wing">
-    <h3>Chicken Wing RM3.50</h3>
-    <div class="quantity">
-      <button onclick="changeQty('wing', -1)">-</button>
-      <span id="qty-wing">0</span>
-      <button onclick="changeQty('wing', 1)">+</button>
-    </div>
-  </div>
-  <div class="item" data-category="original">
-    <img src="drumstick.jpg" alt="Chicken Drumstick">
-    <h3>Chicken Drumstick RM5.00</h3>
-    <div class="quantity">
-      <button onclick="changeQty('drumstick', -1)">-</button>
-      <span id="qty-drumstick">0</span>
-      <button onclick="changeQty('drumstick', 1)">+</button>
-    </div>
-  </div>
-  <div class="item" data-category="original">
-    <img src="thigh.jpg" alt="Chicken Thigh">
-    <h3>Chicken Thigh RM5.00</h3>
-    <div class="quantity">
-      <button onclick="changeQty('thigh', -1)">-</button>
-      <span id="qty-thigh">0</span>
-      <button onclick="changeQty('thigh', 1)">+</button>
-    </div>
-  </div>
-
-  <!-- 小吃系列 -->
-  <h2 class="section-title">🍟 小吃系列</h2>
-  <div class="item" data-category="snacks">
-    <img src="wedges.jpg" alt="Cheesy Wedges">
-    <h3>Cheesy Wedges RM6.50</h3>
-    <div class="quantity">
-      <button onclick="changeQty('wedges', -1)">-</button>
-      <span id="qty-wedges">0</span>
-      <button onclick="changeQty('wedges', 1)">+</button>
-    </div>
-  </div>
-
-</div>
-
-<div id="total">🧾 总计：RM 0.00</div>
-
-<div id="duitnow">
-  <h3>💳 请扫码通过 DuitNow 付款</h3>
-  <img src="duitnow.jpg" alt="DuitNow QR">
-  <p style="margin-top:10px;">付款后，请点击下方按钮，并在 WhatsApp 附上付款截图 📸</p>
-</div>
-
-<!-- 浮动清单 -->
-<div id="orderSummary">
-  <h3>🛒 已选菜单</h3>
-  <ul id="orderList"></ul>
-  <div id="orderTotal">总计：RM 0.00</div>
-  <button id="sendOrder" disabled>📩 发送 WhatsApp 下单</button>
-  <button id="clearOrder">🗑️ 清空订单</button>
 </div>
 
 <script>
-/* ---------- 音效 ---------- */
-(function(){
-  const audio=document.getElementById('welcomeSound');
-  let played=false;
-  function tryPlay(){if(played)return;audio.volume=0.9;audio.play().then(()=>{played=true;}).catch(()=>{});}
-  tryPlay();
-  function userInteractOnce(){tryPlay();window.removeEventListener('click',userInteractOnce);window.removeEventListener('touchstart',userInteractOnce);}
-  window.addEventListener('click',userInteractOnce);
-  window.addEventListener('touchstart',userInteractOnce);
-})();
+/* ---------- 欢迎音效 ---------- */
+(function(){ const audio=document.getElementById('welcomeSound'); let played=false; function tryPlay(){if(played)return; audio.volume=0.9; audio.play().then(()=>{played=true;}).catch(()=>{});} tryPlay(); function userInteractOnce(){tryPlay(); window.removeEventListener('click',userInteractOnce); window.removeEventListener('touchstart',userInteractOnce);} window.addEventListener('click',userInteractOnce); window.addEventListener('touchstart',userInteractOnce);})();
 
 /* ---------- 分类筛选 ---------- */
 const catButtons=document.querySelectorAll('.cat-btn');
-catButtons.forEach(btn=>{btn.addEventListener('click',()=>{
-  catButtons.forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  filterCategory(btn.getAttribute('data-category'));
-});});
-function filterCategory(category){
-  const items=document.querySelectorAll('.item');
-  items.forEach(it=>{
-    const cat=it.getAttribute('data-category');
-    if(category==='all'||cat===category){ it.classList.remove('hidden'); it.classList.add('fade-in'); setTimeout(()=>it.classList.remove('fade-in'),400);}
-    else it.classList.add('hidden');
-  });
-}
+catButtons.forEach(btn=>{btn.addEventListener('click',()=>{catButtons.forEach(b=>b.classList.remove('active')); btn.classList.add('active'); const category=btn.getAttribute('data-category'); filterCategory(category);});});
+function filterCategory(category){const items=document.querySelectorAll('.item'); if(category==='all'){items.forEach(it=>{it.classList.remove('hidden'); it.classList.add('fade-in'); setTimeout(()=>it.classList.remove('fade-in'),400);}); return;} items.forEach(it=>{const cat=it.getAttribute('data-category'); if(cat===category){it.classList.remove('hidden'); it.classList.add('fade-in'); setTimeout(()=>it.classList.remove('fade-in'),400);} else{it.classList.add('hidden');}});}
 
-/* ---------- 数量与清单 ---------- */
-const qty={popcorn_plain:0,popcorn_salty:0,popcorn_seaweed:0,popcorn_spicy:0,popcorn_cheese:0,
-           fillet_plain:0,fillet_salty:0,fillet_seaweed:0,fillet_spicy:0,fillet_cheese:0,
-           wing:0,drumstick:0,thigh:0,wedges:0};
-const prices={popcorn_plain:7.5,popcorn_salty:7.5,popcorn_seaweed:7.5,popcorn_spicy:7.5,popcorn_cheese:7.5,
-             fillet_plain:7.5,fillet_salty:7.5,fillet_seaweed:7.5,fillet_spicy:7.5,fillet_cheese:7.5,
-             wing:3.5,drumstick:5,thigh:5,wedges:6.5};
-const nameMap={
-  popcorn_plain:"Chicken Popcorn (原味)", popcorn_salty:"Chicken Popcorn (盐酥)",
-  popcorn_seaweed:"Chicken Popcorn (海苔)", popcorn_spicy:"Chicken Popcorn (麻辣)", popcorn_cheese:"Chicken Popcorn (起司)",
-  fillet_plain:"Chicken Breast Fillet(原味)", fillet_salty:"Chicken Breast Fillet(盐酥)",
-  fillet_seaweed:"Chicken Breast Fillet(海苔)", fillet_spicy:"Chicken Breast Fillet(麻辣)", fillet_cheese:"Chicken Breast Fillet(起司)",
-  wing:"Chicken Wing", drumstick:"Chicken Drumstick", thigh:"Chicken Thigh", wedges:"Cheesy Wedges"
-};
+/* ---------- 数量/总计/清单 ---------- */
+const qty={popcorn_plain:0,popcorn_salty:0,popcorn_seaweed:0,popcorn_spicy:0,popcorn_cheese:0,fillet_plain:0,fillet_salty:0,fillet_seaweed:0,fillet_spicy:0,fillet_cheese:0,wing:0,drumstick:0,thigh:0,wedges:0};
+const prices={popcorn_plain:7.5,popcorn_salty:7.5,popcorn_seaweed:7.5,popcorn_spicy:7.5,popcorn_cheese:7.5,fillet_plain:7.5,fillet_salty:7.5,fillet_seaweed:7.5,fillet_spicy:7.5,fillet_cheese:7.5,wing:3.5,drumstick:5,thigh:5,wedges:6.5};
+const nameMap={popcorn_plain:"Chicken Popcorn (原味)",popcorn_salty:"Chicken Popcorn (盐酥)",popcorn_seaweed:"Chicken Popcorn (海苔)",popcorn_spicy:"Chicken Popcorn (麻辣)",popcorn_cheese:"Chicken Popcorn (起司)",fillet_plain:"Chicken Breast Fillet (原味)",fillet_salty:"Chicken Breast Fillet (盐酥)",fillet_seaweed:"Chicken Breast Fillet (海苔)",fillet_spicy:"Chicken Breast Fillet (麻辣)",fillet_cheese:"Chicken Breast Fillet (起司)",wing:"Chicken Wing",drumstick:"Chicken Drumstick",thigh:"Chicken Thigh",wedges:"Cheesy Wedges"};
 
 function changeQty(item,change){
-  if(!(item in qty))return;
+  if(!(item in qty)) return;
   qty[item]=Math.max(0,qty[item]+change);
-  const el=document.getElementById("qty-"+item); if(el) el.textContent=qty[item];
-  updateOrderSummary();
-}
-function updateOrderSummary(){
-  let total=0;
-  const ul=document.getElementById('orderList'); ul.innerHTML="";
-  for(const k in qty){ if(qty[k]>0){
-    const li=document.createElement('li');
-    li.innerHTML=`${nameMap[k]} × ${qty[k]} <button onclick="changeQty('${k}',-1)">-</button> <button onclick="changeQty('${k}',1)">+</button>`;
-    ul.appendChild(li);
-    total+=qty[k]*(prices[k]||0);
-  }}
-  document.getElementById('orderTotal').textContent="总计：RM "+total.toFixed(2);
-  document.getElementById('total').textContent="🧾 总计：RM "+total.toFixed(2);
-  const sendBtn=document.getElementById('sendOrder');
-  sendBtn.disabled=total===0;
+  document.getElementById('qty-'+item).textContent=qty[item];
+  updateTotal(); updateList(); checkOrderButton();
 }
 
-/* ---------- WhatsApp 下单 ---------- */
-document.getElementById('sendOrder').addEventListener('click',function(){
-  if(this.disabled)return;
+function updateTotal(){
+  let total=0; for(const k in qty) total+=qty[k]*(prices[k]||0);
+  document.getElementById('total').textContent="🧾 总计：RM "+total.toFixed(2);
+}
+
+function updateList(){
+  const ul=document.getElementById('listItems'); ul.innerHTML='';
+  for(const k in qty){if(qty[k]>0){const li=document.createElement('li'); li.textContent=nameMap[k]+' × '+qty[k]; ul.appendChild(li);}}
+}
+
+function checkOrderButton(){
+  const sendBtn=document.getElementById('sendOrder'); 
+  let anyQty=Object.values(qty).some(v=>v>0);
+  sendBtn.disabled=!anyQty; 
+  if(anyQty){sendBtn.style.background='#25D366'; sendBtn.style.cursor='pointer'; sendBtn.style.boxShadow='0 4px 10px rgba(37,211,102,0.4)'; sendBtn.textContent="📩 发送 WhatsApp 下单";}
+  else{sendBtn.style.background='#ccc'; sendBtn.style.cursor='not-allowed'; sendBtn.style.boxShadow='none'; sendBtn.textContent="📩 发送 WhatsApp 下单";}
+}
+
+/* ---------- 营业时间 ---------- */
+const restDays=["Saturday"]; const openHour=16, openMinute=30, closeHour=20, closeMinute=30;
+function checkBusinessHours(){
+  const now=new Date();
+  const dayName=now.toLocaleDateString('en-US',{weekday:'long'});
+  const hour=now.getHours(), minute=now.getMinutes();
+  const closedDiv=document.getElementById("closed"); const openNow=document.getElementById("openNow"); const sendBtn=document.getElementById("sendOrder");
+  const isRestDay=restDays.includes(dayName);
+  let isOpen=false; if(!isRestDay){const afterOpen=(hour>openHour)||(hour===openHour&&minute>=openMinute); const beforeClose=(hour<closeHour)||(hour===closeHour&&minute<=closeMinute); isOpen=afterOpen&&beforeClose;}
+  if(isRestDay||!isOpen){closedDiv.style.display="block"; openNow.style.display="none"; sendBtn.disabled=true; sendBtn.style.background="#ccc"; sendBtn.style.cursor="not-allowed"; sendBtn.style.boxShadow="none"; sendBtn.textContent="🚫 未营业，无法发送";}
+  else{closedDiv.style.display="none"; openNow.style.display="block"; openNow.textContent="✅ 正在营业中！欢迎下单～"; checkOrderButton();}
+}
+setInterval(checkBusinessHours,60000);
+checkBusinessHours();
+
+/* ---------- WhatsApp ---------- */
+document.getElementById("sendOrder").addEventListener("click",function(){
+  if(this.disabled) return;
   const phone="60103715668";
   const now=new Date();
   const dateTime=now.toLocaleString("zh-CN",{hour12:false});
-  let msg="🍗 Mystery Belacan Fried Chicken 下单通知\n\n🕒 下单时间："+dateTime+"\n\n";
+  let msg="🍗 Mystery Belacan Fried Chicken 下单通知\n\n";
+  msg+="🕒 下单时间："+dateTime+"\n\n";
   let total=0;
-  for(const k in qty){ if(qty[k]>0){ msg+=`- ${nameMap[k]} × ${qty[k]}\n`; total+=qty[k]*(prices[k]||0);}}
+  for(const k in qty){if(qty[k]>0){msg+=`- ${nameMap[k]} × ${qty[k]}\n`; total+=qty[k]*(prices[k]||0);}}
   msg+=`\n🧾 总计：RM ${total.toFixed(2)}\n\n请附上付款截图，谢谢！😊`;
   window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`,"_blank");
 });
 
-/* ---------- 清空订单 ---------- */
-document.getElementById('clearOrder').addEventListener('click',function(){
-  for(const k in qty){ qty[k]=0; const el=document.getElementById("qty-"+k); if(el)el.textContent=0; }
-  updateOrderSummary();
-});
-
-/* ---------- 营业时间 ---------- */
-const restDays=["Saturday"], openHour=16,openMinute=30,closeHour=20,closeMinute=30;
-function checkBusinessHours(){
-  const now=new Date();
-  const dayName=now.toLocaleDateString('en-US',{weekday:'long'});
-  const hour=now.getHours(),minute=now.getMinutes();
-  const closedDiv=document.getElementById("closed"),openNow=document.getElementById("openNow");
-  const sendBtn=document.getElementById("sendOrder");
-  const isRestDay=restDays.includes(dayName);
-  let isOpen=false;
-  if(!isRestDay){ const afterOpen=(hour>openHour)||(hour===openHour&&minute>=openMinute);
-    const beforeClose=(hour<closeHour)||(hour===closeHour&&minute<=closeMinute);
-    isOpen=afterOpen&&beforeClose;}
-  if(isRestDay||!isOpen){ closedDiv.style.display="block"; openNow.style.display="none";
-    sendBtn.disabled=true; sendBtn.textContent="🚫 未营业，无法发送"; sendBtn.style.background="#ccc"; sendBtn.style.cursor="not-allowed"; sendBtn.style.boxShadow="none"; }
-  else{ closedDiv.style.display="none"; openNow.style.display="block"; openNow.textContent="✅ 正在营业中！欢迎下单～";
-    sendBtn.disabled=false; sendBtn.textContent="📩 发送 WhatsApp 下单"; sendBtn.style.background="#25D366"; sendBtn.style.cursor="pointer"; sendBtn.style.boxShadow="0 4px 10px rgba(37,211,102,0.4)"; }
-}
-checkBusinessHours(); setInterval(checkBusinessHours,60*1000);
-
-/* 初始总计 & 清单 */
-updateOrderSummary();
+/* ---------- 初始 ---------- */
+updateTotal(); updateList(); checkOrderButton();
 </script>
 </body>
 </html>
-
-
