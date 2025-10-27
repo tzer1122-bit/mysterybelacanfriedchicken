@@ -175,6 +175,17 @@ button#sendOrder:hover {
     <p>麻辣</p><div class="quantity"><button onclick="changeQty('popcorn_spicy', -1)">-</button><span id="qty-popcorn_spicy">0</span><button onclick="changeQty('popcorn_spicy', 1)">+</button></div>
     <p>起司</p><div class="quantity"><button onclick="changeQty('popcorn_cheese', -1)">-</button><span id="qty-popcorn_cheese">0</span><button onclick="changeQty('popcorn_cheese', 1)">+</button></div>
   </div>
+  
+    <div class="item">
+    <img src="fillet.jpg" alt="Chicken Breast Fillet">
+    <h3>Chicken Breast Fillet RM7.50</h3>
+   <p>选择口味：</p>
+    <p>原味</p><div class="quantity"><button onclick="changeQty('fillet_plain', -1)">-</button><span id="qty-fillet_plain">0</span><button onclick="changeQty('fillet_plain', 1)">+</button></div>
+    <p>盐酥</p><div class="quantity"><button onclick="changeQty('fillet_salty', -1)">-</button><span id="qty-fillet_salty">0</span><button onclick="changeQty('fillet_salty', 1)">+</button></div>
+    <p>海苔</p><div class="quantity"><button onclick="changeQty('fillet_seaweed', -1)">-</button><span id="qty-fillet_seaweed">0</span><button onclick="changeQty('fillet_seaweed', 1)">+</button></div>
+    <p>麻辣</p><div class="quantity"><button onclick="changeQty('fillet_spicy', -1)">-</button><span id="qty-fillet_spicy">0</span><button onclick="changeQty('fillet_spicy', 1)">+</button></div>
+    <p>起司</p><div class="quantity"><button onclick="changeQty('fillet_cheese', -1)">-</button><span id="qty-fillet_cheese">0</span><button onclick="changeQty('fillet_cheese', 1)">+</button></div>
+  </div>
 
   <h2>🍗 原味炸鸡</h2>
   <div class="item">
@@ -194,12 +205,7 @@ button#sendOrder:hover {
     <h3>Chicken Thigh RM5.00</h3>
     <div class="quantity"><button onclick="changeQty('thigh', -1)">-</button><span id="qty-thigh">0</span><button onclick="changeQty('thigh', 1)">+</button></div>
   </div>
-
-  <div class="item">
-    <img src="fillet.jpg" alt="Chicken Breast Fillet">
-    <h3>Chicken Breast Fillet RM7.50</h3>
-    <div class="quantity"><button onclick="changeQty('fillet', -1)">-</button><span id="qty-fillet">0</span><button onclick="changeQty('fillet', 1)">+</button></div>
-  </div>
+  
 
   <h2>🍟 小吃系列</h2>
   <div class="item">
@@ -226,12 +232,12 @@ const closeHour = 20, closeMinute = 30;
 
 const qty = {
   popcorn_plain: 0, popcorn_salty: 0, popcorn_seaweed: 0, popcorn_spicy: 0, popcorn_cheese: 0,
-  wing: 0, drumstick: 0, thigh: 0, fillet: 0, wedges: 0
+  wing: 0, drumstick: 0, thigh: 0, fillet_plain: 0,fillet_salty: 0,fillet_seaweed: 0,fillet_spicy: 0,fillet_cheese: 0, wedges: 0
 };
 
 const prices = {
   popcorn_plain: 7.5, popcorn_salty: 7.5, popcorn_seaweed: 7.5, popcorn_spicy: 7.5, popcorn_cheese: 7.5,
-  wing: 3.5, drumstick: 5, thigh: 5, fillet: 7.5, wedges: 6.5
+  wing: 3.5, drumstick: 5, thigh: 5, fillet_plain: 7.5,fillet_salty: 7.5,fillet_seaweed: 7.5,fillet_spicy: 7.5,fillet_cheese: 7.5, wedges: 6.5
 };
 
 function changeQty(item, change) {
@@ -302,10 +308,15 @@ document.getElementById("sendOrder").addEventListener("click", function() {
     popcorn_seaweed: "Chicken Popcorn (海苔)",
     popcorn_spicy: "Chicken Popcorn (麻辣)",
     popcorn_cheese: "Chicken Popcorn (起司)",
+    fillet_plain: "Chicken Breast Fillet(原味)",
+    fillet_salty: "Chicken Breast Fillet(盐酥)",
+    fillet_seaweed: "Chicken Breast Fillet(海苔)",
+    fillet_spicy: "Chicken Breast Fillet(麻辣)",
+    fillet_cheese: "Chicken Breast Fillet(起司)",
     wing: "Chicken Wing",
     drumstick: "Chicken Drumstick",
     thigh: "Chicken Thigh",
-    fillet: "Chicken Breast Fillet",
+   
     wedges: "Cheesy Wedges"
   };
 
@@ -325,6 +336,7 @@ checkBusinessHours();
 </script>
 </body>
 </html>
+
 
 
 
