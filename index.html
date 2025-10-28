@@ -432,12 +432,15 @@ function changeQty(item,change){
   updateList();
 }
 
+let isCurrentlyOpen = false;
+  
 function updateTotal(){
   let total=0;
   for(const k in qty) total+=qty[k]*(prices[k]||0);
   document.getElementById('total').textContent="🧾 总计：RM "+total.toFixed(2);
 
   const sendBtn=document.getElementById('sendOrder');
+   if (!isCurrentlyOpen) {
   sendBtn.disabled = total===0;
   sendBtn.textContent = total===0?"🚫 请先选择菜单":"📩 发送 WhatsApp 下单";
   sendBtn.style.background=total===0?"#ccc":"#25D366";
@@ -514,7 +517,9 @@ document.getElementById("sendOrder").addEventListener("click",function(){
 updateTotal();
 updateList();
 checkBusinessHours();
+isCurrentlyOpen = !isRestDay && isOpen;
 setInterval(checkBusinessHours,60*1000);
 </script>
 </body>
 </html>
+
