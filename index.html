@@ -554,6 +554,7 @@ updateList();
 checkBusinessHours();
 setInterval(checkBusinessHours,60*1000);
 
+</script>
 <!-- 📱 添加到主屏幕提示框 -->
 <div id="installPrompt" style="
   position:fixed;
@@ -566,7 +567,7 @@ setInterval(checkBusinessHours,60*1000);
   box-shadow:0 2px 5px rgba(0,0,0,0.2);
   font-family:sans-serif;
   z-index:9999;
-  pointer-events:auto;  /* ✅ 允许点击自身 */
+  pointer-events:auto;
 ">
   📱 将此页面添加到主屏幕以便快速下单
   <button onclick="showAddGuide()" style="
@@ -576,7 +577,7 @@ setInterval(checkBusinessHours,60*1000);
     background:#333;
     color:#fff;
     border-radius:6px;
-    pointer-events:none;  /* ✅ 确保按钮可点 */
+    pointer-events:auto;
   ">查看方法</button>
 </div>
 
@@ -590,6 +591,7 @@ setTimeout(() => {
 </script>
 </body>
 </html>
+
 
 
 
