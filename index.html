@@ -553,8 +553,27 @@ updateTotal();
 updateList();
 checkBusinessHours();
 setInterval(checkBusinessHours,60*1000);
+
+<!-- 📱 添加到主屏幕提示框 -->
+  <div id="installPrompt" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  background:#ffcc00;padding:12px 20px;border-radius:10px;box-shadow:0 2px 5px rgba(0,0,0,0.2);
+  font-family:sans-serif;z-index:999;">
+  📱 将此页面添加到主屏幕以便快速下单
+  <button onclick="showAddGuide()" style="margin-left:8px;padding:6px 10px;border:none;
+  background:#333;color:#fff;border-radius:6px;">查看方法</button>
+  </div>
+
+  <script>
+  function showAddGuide() {
+    alert('📱 iPhone：点分享 → 添加到主屏幕\n🤖 Android：点右上角 ⋮ → 添加到主屏幕');
+  }
+  setTimeout(() => {
+    document.getElementById('installPrompt').style.display = 'none';
+  }, 8000);
+  
 </script>
 </body>
 </html>
+
 
 
