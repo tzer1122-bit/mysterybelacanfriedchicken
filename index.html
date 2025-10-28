@@ -432,20 +432,43 @@ function changeQty(item,change){
   updateList();
 }
 
-let isCurrentlyOpen = false;
-  
 function updateTotal(){
-  let total=0;
-  for(const k in qty) total+=qty[k]*(prices[k]||0);
-  document.getElementById('total').textContent="🧾 总计：RM "+total.toFixed(2);
+  let total = 0;
+  for (const k in qty) total += qty[k] * (prices[k] || 0);
+  document.getElementById('total').textContent = "🧾 总计：RM " + total.toFixed(2);
 
-  const sendBtn=document.getElementById('sendOrder');
-   if (!isCurrentlyOpen) {
-  sendBtn.disabled = total===0;
-  sendBtn.textContent = total===0?"🚫 请先选择菜单":"📩 发送 WhatsApp 下单";
-  sendBtn.style.background=total===0?"#ccc":"#25D366";
-  sendBtn.style.cursor=total===0?"not-allowed":"pointer";
+  const sendBtn = document.getElementById('sendOrder');
+
+  // 检查营业状态
+  const now = new Date();
+  const dayName = now.toLocaleDateString('en-US', { weekday: 'long' });
+  const hour = now.getHours(), minute = now.getMinutes();
+  const restDays = ["Saturday"];
+  const openHour = 16, openMinute = 30, closeHour = 20, closeMinute = 30;
+  let isRestDay = restDays.includes(dayName);
+  let isOpen = false;
+  if (!isRestDay) {
+    const afterOpen = (hour > openHour) || (hour === openHour && minute >= openMinute);
+    const beforeClose = (hour < closeHour) || (hour === closeHour && minute <= closeMinute);
+    isOpen = afterOpen && beforeClose;
+  }
+
+  // 未营业或未选菜单 -> 禁用按钮
+  if (total === 0 || !isOpen) {
+    sendBtn.disabled = true;
+    sendBtn.textContent = !isOpen ? "🚫 未营业，无法发送" : "🚫 请先选择菜单";
+    sendBtn.style.background = "#ccc";
+    sendBtn.style.cursor = "not-allowed";
+    sendBtn.style.boxShadow = "none";
+  } else {
+    sendBtn.disabled = false;
+    sendBtn.textContent = "📩 发送 WhatsApp 下单";
+    sendBtn.style.background = "#25D366";
+    sendBtn.style.cursor = "pointer";
+    sendBtn.style.boxShadow = "0 4px 10px rgba(37,211,102,0.3)";
+  }
 }
+
 
 function updateList(){
   const ul=document.getElementById('listItems');
@@ -517,9 +540,7 @@ document.getElementById("sendOrder").addEventListener("click",function(){
 updateTotal();
 updateList();
 checkBusinessHours();
-isCurrentlyOpen = !isRestDay && isOpen;
 setInterval(checkBusinessHours,60*1000);
 </script>
 </body>
 </html>
-
